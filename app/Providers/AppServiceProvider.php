@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Http\Controllers\SchoolController;
+use App\Repositories\SchoolRepository;
+use App\Models\School;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +17,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(SchoolRepository::class, function ($app) {
+            return new SchoolRepository(new School());
+        });
+        // $this->app->singleton(SchoolController::class, function(){
+        //     return new SchoolController(new SchoolRepository());
+        // });
     }
 
     /**
