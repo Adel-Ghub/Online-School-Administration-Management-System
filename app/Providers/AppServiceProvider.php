@@ -6,6 +6,9 @@ use Illuminate\Support\ServiceProvider;
 use App\Http\Controllers\SchoolController;
 use App\Repositories\SchoolRepository;
 use App\Models\School;
+use App\Repositories\CourseRepository;
+use App\Models\Course;
+use App\Http\Controllers\CourseController;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(SchoolRepository::class, function ($app) {
             return new SchoolRepository(new School());
+        });
+        $this->app->singleton(CourseRepository::class, function ($app) {
+            return new CourseRepository(new Course());
         });
         // $this->app->singleton(SchoolController::class, function(){
         //     return new SchoolController(new SchoolRepository());
