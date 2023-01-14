@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\CourseController;
-
+use App\Http\Controllers\EnrollmentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,6 +35,13 @@ Route::put('/Courses/{id}',[CrouseController::class,'update']);
 Route::get('/Courses',[CourseController::class,'index']);
 Route::get('/Courses/{id}',[CourseController::class,'show']);
 Route::delete('Courses/{id}',[CourseController::class,'destroy']);
+
+
+Route::post('/Enrollments',[EnrollmentController::class,'store']);
+Route::put('/Enrollments/{id}',[EnrollmentController::class,'update']);
+Route::get('/Enrollments',[EnrollmentController::class,'index']);
+Route::get('/Enrollments/{id}',[EnrollmentController::class,'show']);
+Route::delete('Enrollments/{id}',[EnrollmentController::class,'destroy']);
 
 
 

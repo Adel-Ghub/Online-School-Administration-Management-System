@@ -9,7 +9,9 @@ use App\Models\School;
 use App\Repositories\CourseRepository;
 use App\Models\Course;
 use App\Http\Controllers\CourseController;
-
+use App\Repositories\EnrollmentRepository;
+use App\Models\Enrollment;
+use App\Http\Controllers\EnrollmentController;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->singleton(CourseRepository::class, function ($app) {
             return new CourseRepository(new Course());
+        });
+        $this->app->singleton(EnrollmentRepository::class, function ($app) {
+            return new EnrollmentRepository(new Enrollment());
         });
         // $this->app->singleton(SchoolController::class, function(){
         //     return new SchoolController(new SchoolRepository());
