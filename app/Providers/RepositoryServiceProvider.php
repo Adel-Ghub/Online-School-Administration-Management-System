@@ -7,6 +7,8 @@ use App\Repositories\CourseRepository;
 use App\Models\Course;
 use App\Repositories\EnrollmentRepository;
 use App\Models\Enrollment;
+use App\Repositories\UserRepository;
+use App\Models\User;
 
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -21,6 +23,9 @@ class RepositoryServiceProvider extends ServiceProvider
         });
         $this->app->bind(EnrollmentRepository::class, function ($app) {
             return new EnrollmentRepository(new Enrollment());
+        });
+        $this->app->singleton(UserRepository::class, function ($app) {
+            return new UserRepository(new User());
         });
     }
 }

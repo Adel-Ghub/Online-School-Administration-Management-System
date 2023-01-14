@@ -12,6 +12,9 @@ use App\Http\Controllers\CourseController;
 use App\Repositories\EnrollmentRepository;
 use App\Models\Enrollment;
 use App\Http\Controllers\EnrollmentController;
+use App\Repositories\UserRepository;
+use App\Models\User;
+use App\Http\Controllers\UserController;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +33,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->singleton(EnrollmentRepository::class, function ($app) {
             return new EnrollmentRepository(new Enrollment());
+        });
+        $this->app->singleton(UserRepository::class, function ($app) {
+            return new UserRepository(new User());
         });
         // $this->app->singleton(SchoolController::class, function(){
         //     return new SchoolController(new SchoolRepository());
