@@ -50,7 +50,9 @@ Route::post('/Users',[UserController::class,'store']);
 Route::put('/Users/{id}',[UserController::class,'update']);
 Route::get('/Users',[UserController::class,'index']);
 Route::get('/Users/{id}',[UserController::class,'show']);
-Route::delete('Users/{id}',[UserController::class,'destroy']);
+Route::delete('/Users/{id}',[UserController::class,'destroy']);
+Route::post('/Users/login',[UserController::class,'login']);
+Route::post('/Users/register',[UserController::class,'register']);
 
 
 //Route::get('/schools', 'App\Http\Controllers\SchoolController@index');

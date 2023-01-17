@@ -64,5 +64,21 @@ return response()->json($user);
 
         return response()->json('user deleted successfully.');
     }
+
+    public function login(Request $request, UserRepository $userRepository) {
+        $user = $this->userRepository->login($request->all());
+        if(!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $token = JWTAuth::fromUser($user);
+        return response()->json(['user' => $user, 'token' => $token], 200);
+    }
+
+    public function register(Request $request, UserRepository $userRepository)
+    {
+        return $userRepository->create($request);
+    }
+    
+
 }
 
