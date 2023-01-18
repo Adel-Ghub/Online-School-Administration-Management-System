@@ -6,6 +6,7 @@ use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\UserMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ Route::delete('schools/{id}',[SchoolController::class,'destroy']);
 
 
 Route::post('/Courses',[CourseController::class,'store']);
-Route::put('/Courses/{id}',[CrouseController::class,'update']);
+Route::put('/Courses/{id}',[CourseController::class,'update']);
 Route::get('/Courses',[CourseController::class,'index']);
 Route::get('/Courses/{id}',[CourseController::class,'show']);
 Route::delete('Courses/{id}',[CourseController::class,'destroy']);
@@ -46,18 +47,30 @@ Route::get('/Enrollments/{id}',[EnrollmentController::class,'show']);
 Route::delete('Enrollments/{id}',[EnrollmentController::class,'destroy']);
 
 
-Route::post('/Users',[UserController::class,'store']);
-Route::put('/Users/{id}',[UserController::class,'update']);
+//Route::post('/Users',[UserController::class,'store']);
+//Route::put('/Users/{id}',[UserController::class,'update']);
 Route::get('/Users',[UserController::class,'index']);
 Route::get('/Users/{id}',[UserController::class,'show']);
-Route::delete('/Users/{id}',[UserController::class,'destroy']);
-Route::post('/Users/login',[UserController::class,'login']);
-Route::post('/Users/register',[UserController::class,'register']);
+//Route::delete('/Users/{id}',[UserController::class,'destroy'])->middleware('auth.user');
+Route::post('/Users/login',[UserController::class,'login'])->middleware('auth.user');
 
+/* Route::post('Users/register', [UserController::class, 'register'])->middleware('auth.user');
+ */
+Route::middleware(['auth:api'])->group(function(){
+    Route::post('Users/register', [UserController::class, 'register']);
+    Route::delete('/Users/{id}',[UserController::class,'destroy']);
+    Route::put('/Users/{id}',[UserController::class,'update']);
+    Route::post('/Users',[UserController::class,'store']);
+});
+
+/* Route::group(['middleware' => 'auth.user'], function () {
+    Route::post('/Users/register',[UserController::class,'register']);
+});
+ */
 
 //Route::get('/schools', 'App\Http\Controllers\SchoolController@index');
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+}); */
