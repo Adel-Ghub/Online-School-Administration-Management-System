@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Models\User;
+use Tymon\JWTAuth\Facades\JWTAuth as JWTAuth;
 
 class UserController extends Controller
 {
@@ -13,11 +14,17 @@ class UserController extends Controller
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
+
+/*        // $this->middleware('auth.user');//This will apply the middleware to all actions in the controller.
+ */
     }
 
     public function index()
     {
         $users = $this->userRepository->all();
+        foreach($users as $user) {
+            $user->token = JWTAuth::fromUser($user);//to show the token for each user
+        }
         return response()->json($users, 200);
 
 
@@ -26,7 +33,8 @@ class UserController extends Controller
 
      public function store(Request $request)
     {
-        $user = $this->userRepository->create($request->all());
+        $this->middleware('auth:api');
+        $user = $this->userRepository->create($request);
         return response()->json([
             'message' => 'Successfully created new user',$user]);
         //return redirect()->route('users.index')->with('success', 'user created successfully.');
@@ -60,6 +68,8 @@ return response()->json($user);
 
     public function destroy($id)
     {
+        $this->middleware('auth:api');
+
         $this->userRepository->delete($id);
 
         return response()->json('user deleted successfully.');
@@ -76,9 +86,13 @@ return response()->json($user);
 
     public function register(Request $request, UserRepository $userRepository)
     {
+/*         //$this->middleware('auth.user');
+ */        $this->middleware('auth:api');
+
         return $userRepository->create($request);
     }
     
-
+    
+    
 }
 
